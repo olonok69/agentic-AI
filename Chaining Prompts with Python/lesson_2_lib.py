@@ -67,11 +67,16 @@ def get_completion(
     if user_prompt:
         normalized_messages.append({"role": "user", "content": user_prompt})
 
-    response = client.chat.completions.create(
-        model=model,
-        messages=normalized_messages,
-        temperature=temperature,
-    )
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=normalized_messages,
+            temperature=temperature,
+        )
+    except Exception as e:
+        # Provide a clearer hint when the common 'messages[0] is a string' error occurs
+        raise
+
     return response.choices[0].message.content
 
 

@@ -14,27 +14,62 @@ class OpenAIModels(str, Enum):
 MODEL = OpenAIModels.GPT_41_NANO
 
 
-def get_completion(messages=None, system_prompt=None, user_prompt=None, model=MODEL, client=None, temperature=0.7):
+def get_completion(
+    messages=None,
+    system_prompt=None,
+    user_prompt=None,
+    model=MODEL,
+    client=None,
+    temperature=0.7,
+):
     """
-    Function to get a completion from the OpenAI API.
-    Args:
-        system_prompt: The system prompt
-        user_prompt: The user prompt
-        model: The model to use (default is gpt-4.1-mini)
-    Returns:
-        The completion text
+    Get a chat completion from the OpenAI API.
+
+    Accepts flexible input for "messages":
+    - str: treated as a single user message
+    - dict: must contain keys {"role", "content"}
+    - list/tuple: items can be str or dict in the formats above
+
+    Additionally, optional system_prompt and user_prompt are merged into the
+    final messages list in that order.
     """
     if client is None:
         raise ValueError("OpenAI client must be provided")
 
-    messages = list(messages or [])
+    def _as_message(obj):
+        if isinstance(obj, str):
+            return {"role": "user", "content": obj}
+        if isinstance(obj, dict):
+            if "role" in obj and "content" in obj:
+                return obj
+            raise TypeError(
+                "Each message dict must include 'role' and 'content' keys"
+            )
+        raise TypeError(
+            "messages must be a str, a dict with {role, content}, or a list/tuple of those"
+        )
+
+    normalized_messages = []
+
+    # Merge system prompt first
     if system_prompt:
-        messages.insert(0, {"role": "system", "content": system_prompt})
+        normalized_messages.append({"role": "system", "content": system_prompt})
+
+    # Normalize the messages param
+    if messages is not None:
+        if isinstance(messages, (list, tuple)):
+            for m in messages:
+                normalized_messages.append(_as_message(m))
+        else:
+            normalized_messages.append(_as_message(messages))
+
+    # Append trailing user prompt if provided
     if user_prompt:
-        messages.append({"role": "user", "content": user_prompt})
+        normalized_messages.append({"role": "user", "content": user_prompt})
+
     response = client.chat.completions.create(
         model=model,
-        messages=messages,
+        messages=normalized_messages,
         temperature=temperature,
     )
     return response.choices[0].message.content
