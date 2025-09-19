@@ -1,5 +1,25 @@
 import datetime
-sales_data = [
+from typing import Any, Dict, List, Optional
+from enum import Enum
+
+
+class OpenAIModels(str, Enum):
+    GPT_4O_MINI = "gpt-4o-mini"
+    GPT_41_MINI = "gpt-4.1-mini"
+    GPT_41_NANO = "gpt-4.1-nano"
+
+
+def get_sales_data(products: Optional[List[str]] = None) -> List[Dict[str, Any]]:
+    """
+    Get sales data for analysis. Optionally filter by product IDs.
+    
+    Args:
+        products: Optional list of product IDs to filter by
+        
+    Returns:
+        List of sales data dictionaries
+    """
+    data = [
         {
             "date": datetime.date(2024, 1, 10),
             "product_id": "P001",
@@ -246,9 +266,14 @@ sales_data = [
             "revenue": 3368.75,
         },
     ]
+    if products:
+        return [item for item in data if item["product_id"] in products]
+    return data
 
 
-promotions_data = [
+def get_promotions_data() -> List[Dict[str, Any]]:
+    """Get promotional campaign data."""
+    data = [
         {
             "promotion_id": "PROMO001",
             "name": "Weekend Special",
@@ -266,10 +291,12 @@ promotions_data = [
             "end_date": datetime.date(2024, 1, 16),
         },
     ]
+    return data
 
 
-
-weather_data = [
+def get_weather_data() -> List[Dict[str, Any]]:
+    """Get weather data for analysis."""
+    data = [
         {
             "date": "2024-01-10",
             "temperature": {"fahrenheit": 23.4, "celsius": -4.8},
@@ -341,12 +368,12 @@ weather_data = [
             },
         },
     ]
+    return data
 
 
-
-
-
-competitor_pricing_data = [
+def get_competitor_pricing_data() -> List[Dict[str, Any]]:
+    """Get competitor pricing data for analysis."""
+    data = [
         {
             "product": "Product 1",
             "date": "2024-01-10",
@@ -386,300 +413,6 @@ competitor_pricing_data = [
             "competitor_c_price": 39.44,
         },
         {
-            "product": "Product 1",
-            "date": "2024-01-13",
-            "our_price": 60.97,
-            "competitor_sales": {},
-            "competitor_a_price": 72.13,
-            "competitor_b_price": 57.54,
-            "competitor_c_price": 51.1,
-        },
-        {
-            "product": "Product 1",
-            "date": "2024-01-14",
-            "our_price": 60.97,
-            "competitor_sales": {},
-            "competitor_a_price": 72.36,
-            "competitor_b_price": 70.04,
-            "competitor_c_price": 61.04,
-        },
-        {
-            "product": "Product 1",
-            "date": "2024-01-15",
-            "our_price": 60.97,
-            "competitor_sales": {},
-            "competitor_a_price": 68.52,
-            "competitor_b_price": 59.63,
-            "competitor_c_price": 73.03,
-        },
-        {
-            "product": "Product 1",
-            "date": "2024-01-16",
-            "our_price": 60.97,
-            "competitor_sales": {
-                "CompetitorA": {
-                    "original_price": 53.84,
-                    "sale_price": 44.69,
-                    "discount_percentage": 17,
-                }
-            },
-            "competitor_a_price": 44.69,
-            "competitor_b_price": 57.69,
-            "competitor_c_price": 70.51,
-        },
-        {
-            "product": "Product 2",
-            "date": "2024-01-10",
-            "our_price": 35.34,
-            "competitor_sales": {},
-            "competitor_a_price": 34.57,
-            "competitor_b_price": 42.01,
-            "competitor_c_price": 42.02,
-        },
-        {
-            "product": "Product 2",
-            "date": "2024-01-11",
-            "our_price": 35.34,
-            "competitor_sales": {
-                "CompetitorB": {
-                    "original_price": 40.13,
-                    "sale_price": 29.29,
-                    "discount_percentage": 27,
-                },
-                "CompetitorC": {
-                    "original_price": 28.93,
-                    "sale_price": 22.85,
-                    "discount_percentage": 21,
-                },
-            },
-            "competitor_a_price": 37.91,
-            "competitor_b_price": 29.29,
-            "competitor_c_price": 22.85,
-        },
-        {
-            "product": "Product 2",
-            "date": "2024-01-12",
-            "our_price": 35.34,
-            "competitor_sales": {},
-            "competitor_a_price": 41.81,
-            "competitor_b_price": 33.35,
-            "competitor_c_price": 29.62,
-        },
-        {
-            "product": "Product 2",
-            "date": "2024-01-13",
-            "our_price": 35.34,
-            "competitor_sales": {},
-            "competitor_a_price": 41.94,
-            "competitor_b_price": 40.6,
-            "competitor_c_price": 35.38,
-        },
-        {
-            "product": "Product 2",
-            "date": "2024-01-14",
-            "our_price": 35.34,
-            "competitor_sales": {},
-            "competitor_a_price": 39.71,
-            "competitor_b_price": 34.56,
-            "competitor_c_price": 42.33,
-        },
-        {
-            "product": "Product 2",
-            "date": "2024-01-15",
-            "our_price": 35.34,
-            "competitor_sales": {
-                "CompetitorA": {
-                    "original_price": 31.21,
-                    "sale_price": 25.9,
-                    "discount_percentage": 17,
-                }
-            },
-            "competitor_a_price": 25.9,
-            "competitor_b_price": 33.44,
-            "competitor_c_price": 40.87,
-        },
-        {
-            "product": "Product 2",
-            "date": "2024-01-16",
-            "our_price": 35.34,
-            "competitor_sales": {},
-            "competitor_a_price": 33.86,
-            "competitor_b_price": 28.92,
-            "competitor_c_price": 41.03,
-        },
-        {
-            "product": "Product 3",
-            "date": "2024-01-10",
-            "our_price": 81.13,
-            "competitor_sales": {
-                "CompetitorB": {
-                    "original_price": 92.14,
-                    "sale_price": 67.26,
-                    "discount_percentage": 27,
-                },
-                "CompetitorC": {
-                    "original_price": 66.42,
-                    "sale_price": 52.47,
-                    "discount_percentage": 21,
-                },
-            },
-            "competitor_a_price": 87.02,
-            "competitor_b_price": 67.26,
-            "competitor_c_price": 52.47,
-        },
-        {
-            "product": "Product 3",
-            "date": "2024-01-11",
-            "our_price": 81.13,
-            "competitor_sales": {},
-            "competitor_a_price": 95.98,
-            "competitor_b_price": 76.56,
-            "competitor_c_price": 68.0,
-        },
-        {
-            "product": "Product 3",
-            "date": "2024-01-12",
-            "our_price": 81.13,
-            "competitor_sales": {},
-            "competitor_a_price": 96.29,
-            "competitor_b_price": 93.2,
-            "competitor_c_price": 81.22,
-        },
-        {
-            "product": "Product 3",
-            "date": "2024-01-13",
-            "our_price": 81.13,
-            "competitor_sales": {},
-            "competitor_a_price": 91.17,
-            "competitor_b_price": 79.35,
-            "competitor_c_price": 97.18,
-        },
-        {
-            "product": "Product 3",
-            "date": "2024-01-14",
-            "our_price": 81.13,
-            "competitor_sales": {
-                "CompetitorA": {
-                    "original_price": 71.64,
-                    "sale_price": 59.46,
-                    "discount_percentage": 17,
-                }
-            },
-            "competitor_a_price": 59.46,
-            "competitor_b_price": 76.76,
-            "competitor_c_price": 93.83,
-        },
-        {
-            "product": "Product 3",
-            "date": "2024-01-15",
-            "our_price": 81.13,
-            "competitor_sales": {},
-            "competitor_a_price": 77.73,
-            "competitor_b_price": 66.39,
-            "competitor_c_price": 94.19,
-        },
-        {
-            "product": "Product 3",
-            "date": "2024-01-16",
-            "our_price": 81.13,
-            "competitor_sales": {
-                "CompetitorA": {
-                    "original_price": 80.32,
-                    "sale_price": 63.45,
-                    "discount_percentage": 21,
-                }
-            },
-            "competitor_a_price": 63.45,
-            "competitor_b_price": 87.76,
-            "competitor_c_price": 81.93,
-        },
-        {
-            "product": "Product 4",
-            "date": "2024-01-10",
-            "our_price": 48.52,
-            "competitor_sales": {},
-            "competitor_a_price": 57.4,
-            "competitor_b_price": 45.79,
-            "competitor_c_price": 40.67,
-        },
-        {
-            "product": "Product 4",
-            "date": "2024-01-11",
-            "our_price": 48.52,
-            "competitor_sales": {},
-            "competitor_a_price": 57.59,
-            "competitor_b_price": 55.74,
-            "competitor_c_price": 48.58,
-        },
-        {
-            "product": "Product 4",
-            "date": "2024-01-12",
-            "our_price": 48.52,
-            "competitor_sales": {},
-            "competitor_a_price": 54.52,
-            "competitor_b_price": 47.45,
-            "competitor_c_price": 58.12,
-        },
-        {
-            "product": "Product 4",
-            "date": "2024-01-13",
-            "our_price": 48.52,
-            "competitor_sales": {
-                "CompetitorA": {
-                    "original_price": 42.85,
-                    "sale_price": 35.57,
-                    "discount_percentage": 17,
-                }
-            },
-            "competitor_a_price": 35.57,
-            "competitor_b_price": 45.91,
-            "competitor_c_price": 56.11,
-        },
-        {
-            "product": "Product 4",
-            "date": "2024-01-14",
-            "our_price": 48.52,
-            "competitor_sales": {},
-            "competitor_a_price": 46.49,
-            "competitor_b_price": 39.7,
-            "competitor_c_price": 56.33,
-        },
-        {
-            "product": "Product 4",
-            "date": "2024-01-15",
-            "our_price": 48.52,
-            "competitor_sales": {
-                "CompetitorA": {
-                    "original_price": 48.04,
-                    "sale_price": 37.95,
-                    "discount_percentage": 21,
-                }
-            },
-            "competitor_a_price": 37.95,
-            "competitor_b_price": 52.48,
-            "competitor_c_price": 49.0,
-        },
-        {
-            "product": "Product 4",
-            "date": "2024-01-16",
-            "our_price": 48.52,
-            "competitor_sales": {
-                "CompetitorB": {
-                    "original_price": 50.93,
-                    "sale_price": 45.84,
-                    "discount_percentage": 10,
-                },
-                "CompetitorC": {
-                    "original_price": 51.01,
-                    "sale_price": 40.3,
-                    "discount_percentage": 21,
-                },
-            },
-            "competitor_a_price": 41.82,
-            "competitor_b_price": 45.84,
-            "competitor_c_price": 40.3,
-        },
-        {
             "product": "Product 5",
             "date": "2024-01-10",
             "our_price": 26.95,
@@ -712,73 +445,196 @@ competitor_pricing_data = [
             "competitor_b_price": 25.5,
             "competitor_c_price": 31.17,
         },
-        {
-            "product": "Product 5",
-            "date": "2024-01-13",
-            "our_price": 26.95,
-            "competitor_sales": {},
-            "competitor_a_price": 25.82,
-            "competitor_b_price": 22.05,
-            "competitor_c_price": 31.29,
-        },
-        {
-            "product": "Product 5",
-            "date": "2024-01-14",
-            "our_price": 26.95,
-            "competitor_sales": {
-                "CompetitorA": {
-                    "original_price": 26.68,
-                    "sale_price": 21.08,
-                    "discount_percentage": 21,
-                }
-            },
-            "competitor_a_price": 21.08,
-            "competitor_b_price": 29.15,
-            "competitor_c_price": 27.21,
-        },
-        {
-            "product": "Product 5",
-            "date": "2024-01-15",
-            "our_price": 26.95,
-            "competitor_sales": {
-                "CompetitorB": {
-                    "original_price": 28.29,
-                    "sale_price": 25.46,
-                    "discount_percentage": 10,
-                },
-                "CompetitorC": {
-                    "original_price": 28.33,
-                    "sale_price": 22.38,
-                    "discount_percentage": 21,
-                },
-            },
-            "competitor_a_price": 23.23,
-            "competitor_b_price": 25.46,
-            "competitor_c_price": 22.38,
-        },
-        {
-            "product": "Product 5",
-            "date": "2024-01-16",
-            "our_price": 26.95,
-            "competitor_sales": {
-                "CompetitorA": {
-                    "original_price": 27.28,
-                    "sale_price": 24.01,
-                    "discount_percentage": 12,
-                },
-                "CompetitorB": {
-                    "original_price": 24.9,
-                    "sale_price": 19.42,
-                    "discount_percentage": 22,
-                },
-                "CompetitorC": {
-                    "original_price": 30.56,
-                    "sale_price": 23.53,
-                    "discount_percentage": 23,
-                },
-            },
-            "competitor_a_price": 24.01,
-            "competitor_b_price": 19.42,
-            "competitor_c_price": 23.53,
-        },
     ]
+    return data
+
+
+def call_weather_api(date: str) -> Dict[str, Any]:
+    """
+    Simulated weather API call for specific date.
+    
+    Args:
+        date: Date string in YYYY-MM-DD format
+        
+    Returns:
+        Weather data dictionary for the specified date
+    """
+    data = get_weather_data()
+    data_dict = {item["date"]: item for item in data}
+    return data_dict.get(date, {})
+
+
+# Data for Prompt Instruction Refinement case
+def get_email_data() -> List[Dict[str, Any]]:
+    """Get sample email data for prompt instruction refinement exercises."""
+    return [
+        {
+            "id": 1,
+            "subject": "Q4 Budget Review Meeting - URGENT",
+            "from": "finance@company.com",
+            "to": "team@company.com",
+            "date": "2024-01-15",
+            "content": "Please review the attached Q4 budget spreadsheet before tomorrow's meeting at 2 PM. We need to discuss the 15% overage in marketing expenses and the proposed cuts to the training budget. Your input on reallocating funds is crucial.",
+            "priority": "high",
+            "attachments": ["Q4_Budget_Review.xlsx"],
+            "category": "business"
+        },
+        {
+            "id": 2,
+            "subject": "Team Building Event - Pizza Party!",
+            "from": "hr@company.com",
+            "to": "all-staff@company.com",
+            "date": "2024-01-14",
+            "content": "Join us this Friday at 5 PM in the main conference room for our monthly team building pizza party! We'll have vegetarian and gluten-free options available. Please RSVP by Wednesday so we can order enough food for everyone.",
+            "priority": "low",
+            "attachments": [],
+            "category": "social"
+        },
+        {
+            "id": 3,
+            "subject": "Security Alert: Password Reset Required",
+            "from": "security@company.com",
+            "to": "john.doe@company.com",
+            "date": "2024-01-16",
+            "content": "We've detected unusual login activity on your account from an unrecognized location. As a precautionary measure, please reset your password immediately using the link below. If you did not attempt to log in, please contact IT security immediately.",
+            "priority": "critical",
+            "attachments": [],
+            "category": "security"
+        },
+        {
+            "id": 4,
+            "subject": "New Feature Release - CRM Updates",
+            "from": "product@company.com",
+            "to": "development@company.com",
+            "date": "2024-01-13",
+            "content": "We're excited to announce the release of new CRM features including automated lead scoring, custom dashboard widgets, and enhanced reporting capabilities. The update will be deployed this weekend. Please review the documentation and prepare for Monday's training session.",
+            "priority": "medium",
+            "attachments": ["CRM_Feature_Guide.pdf", "Training_Schedule.pdf"],
+            "category": "product"
+        },
+        {
+            "id": 5,
+            "subject": "Lunch Plans",
+            "from": "jane.smith@company.com",
+            "to": "john.doe@company.com",
+            "date": "2024-01-12",
+            "content": "Hey! Want to grab lunch at that new sushi place down the street today? I heard they have great reviews. Let me know if you're free around 12:30.",
+            "priority": "low",
+            "attachments": [],
+            "category": "personal"
+        },
+        {
+            "id": 6,
+            "subject": "Server Maintenance Tonight - Action Required",
+            "from": "infrastructure@company.com",
+            "to": "developers@company.com",
+            "date": "2024-01-17",
+            "content": "Scheduled server maintenance will begin at 11 PM tonight and last approximately 4 hours. Please ensure all critical processes are shut down gracefully by 10:45 PM. The customer portal and internal systems will be unavailable during this time. Emergency contact: on-call engineer at ext. 9999.",
+            "priority": "high",
+            "attachments": ["Maintenance_Checklist.pdf"],
+            "category": "infrastructure"
+        }
+    ]
+
+
+def get_customer_feedback_data() -> List[Dict[str, Any]]:
+    """Get sample customer feedback data for sentiment analysis exercises."""
+    return [
+        {
+            "id": 1,
+            "customer_name": "Alice Johnson",
+            "email": "alice.j@email.com",
+            "product": "Product 1",
+            "rating": 5,
+            "feedback": "Absolutely fantastic product! The quality exceeded my expectations and the customer service was outstanding. I've already recommended it to three friends. Will definitely be ordering again soon!",
+            "date": "2024-01-15",
+            "channel": "website"
+        },
+        {
+            "id": 2,
+            "customer_name": "Bob Smith",
+            "email": "bob.smith@email.com",
+            "product": "Product 3",
+            "rating": 2,
+            "feedback": "Very disappointed with this purchase. The product arrived damaged and the return process was extremely complicated. It took three phone calls and two weeks to get a refund. Not impressed with the overall experience.",
+            "date": "2024-01-14",
+            "channel": "phone"
+        },
+        {
+            "id": 3,
+            "customer_name": "Carol Wilson",
+            "email": "c.wilson@email.com",
+            "product": "Product 2",
+            "rating": 4,
+            "feedback": "Good product overall, works as advertised. The setup was a bit more complex than expected, but customer support helped me through it. Would be nice if the instructions were clearer, but I'm satisfied with the purchase.",
+            "date": "2024-01-13",
+            "channel": "email"
+        },
+        {
+            "id": 4,
+            "customer_name": "David Lee",
+            "email": "d.lee@email.com",
+            "product": "Product 4",
+            "rating": 1,
+            "feedback": "Terrible experience from start to finish. Product stopped working after just two days and customer service was completely unhelpful. They kept transferring me to different departments. I want a full refund immediately!",
+            "date": "2024-01-16",
+            "channel": "chat"
+        },
+        {
+            "id": 5,
+            "customer_name": "Emma Davis",
+            "email": "emma.davis@email.com",
+            "product": "Product 5",
+            "rating": 3,
+            "feedback": "It's okay, nothing special. Does what it's supposed to do but doesn't really stand out from competitors. The price is fair but I was expecting something more innovative based on the marketing materials.",
+            "date": "2024-01-12",
+            "channel": "website"
+        },
+        {
+            "id": 6,
+            "customer_name": "Frank Garcia",
+            "email": "f.garcia@email.com",
+            "product": "Product 1",
+            "rating": 5,
+            "feedback": "Love this product! It has made my daily routine so much easier. The quality is top-notch and it looks great too. My only minor complaint is that shipping took a bit longer than expected, but the product itself is perfect.",
+            "date": "2024-01-17",
+            "channel": "website"
+        }
+    ]
+
+
+def get_prompt_templates() -> Dict[str, str]:
+    """Get various prompt templates for instruction refinement exercises."""
+    return {
+        "basic_email_summary": "Summarize this email:",
+        "detailed_email_analysis": """
+        Analyze the following email and provide:
+        1. A concise summary
+        2. Priority level assessment
+        3. Key action items
+        4. Recommended next steps
+        
+        Email content:
+        """,
+        "sentiment_analysis_basic": "What is the sentiment of this customer feedback?",
+        "sentiment_analysis_detailed": """
+        Analyze the customer feedback below and provide:
+        1. Overall sentiment (positive/negative/neutral)
+        2. Sentiment score (1-10 scale)
+        3. Key themes mentioned
+        4. Specific issues or praise points
+        5. Recommended business actions
+        
+        Customer feedback:
+        """,
+        "professional_email_composer": """
+        Compose a professional email response with the following requirements:
+        - Professional but friendly tone
+        - Clear structure with greeting, body, and closing
+        - Address all key points mentioned
+        - Include appropriate call-to-action
+        - Maximum 200 words
+        
+        Context:
+        """
+    }
