@@ -1,0 +1,54 @@
+## Founding Engineer Take-Home Assignment: The "SupportWise" AI Co-pilot
+Welcome! We're excited to see how you approach complex problems. This assignment is designed to evaluate your ability to think through system architecture, make pragmatic technology choices, and design a robust, scalable product from the ground up.
+### Introduction
+At SupportWise Inc., our mission is to help companies understand their customers. Our source of truth for all customer support interactions is Zendesk Support.
+Our Head of Support, Brenda, is brilliant but not a data engineer. She knows all the answers she needs are locked away inside Zendesk. We want to empower her with an AI Co-pilot that can analyze this data, allowing her to ask complex questions in natural language and get back actionable insights and visualizations.
+### The Challenge
+Your task is to create a technical design document for this AI Co-pilot. You are the founding engineer, and this document will be the blueprint for the MVP. We're not looking for code, but for a detailed plan that demonstrates your architectural vision and technical depth.
+---
+### Use Case and Data
+The system must analyze data originating from our Zendesk instance. We have several years of history, amounting to millions of tickets and comments. The primary business concepts to analyze are:
+* Tickets: Each has fields like status, priority, tags, created_at, and various custom fields tracking product areas or issue types.
+* Comments: The raw text of the conversations between customers and agents for each ticket.
+For interactive queries, Brenda expects answers in seconds. For deeper analyses that require processing large amounts of historical data, she understands that the system may need to work in the background and notify her when the results are ready.
+---
+### Core User Journeys to Support
+Your design should enable Brenda to perform the following tasks by interacting with the AI Co-pilot in a chat interface.
+Journey 1: Basic Reporting
+Brenda needs to ask simple, factual questions.
+* Brenda asks: "How many tickets with 'urgent' priority were created last week?"
+* Brenda asks: "What are our oldest unresolved tickets?"
+Journey 2: Deeper Business Insights
+Brenda wants to move beyond simple counts to understand the root causes and trends that drive the support metrics.
+* Brenda asks: "We saw a 15% spike in 'high' priority tickets last month. What were our customers complaining about?"
+* Brenda asks: "The product team just launched the 'auto-sync' feature. How is it being received by customers?"
+Journey 3: Persistent, Reusable Analyses
+Brenda often needs to create the same report every week.
+* Brenda asks: "Show me a bar chart of tickets created per day last week."
+* AI Co-pilot: (Displays a bar chart).
+* Brenda says: "This is great! Save this as the 'Weekly Ticket Report'."
+* The next week, Brenda asks: "Run the 'Weekly Ticket Report' for me."
+---
+### Key Architectural Considerations
+Your design document must address the following points. Focus on the strategy and principles behind your decisions.
+1. User Experience Flow: A user types "How many urgent tickets did we get last week?" into a chat interface. Walk through what happens from that moment until Brenda sees her answer. What are the key technical challenges in making this feel seamless and reliable?
+2. Historical Data Challenges: Our Zendesk instance contains millions of tickets and comments spanning several years. Brenda expects answers to her questions within seconds, even when those questions require analyzing large amounts of historical data. What technical challenges does this create and how would you solve them?
+3. Business Data Risks: This system will have access to our primary business data - customer communications, support metrics, and operational insights. What could go wrong if we build this carelessly? How would you ensure the system is safe to deploy in a production environment?
+4. Complex Business Questions: Brenda often asks questions that can't be answered with simple ticket counts, like "Why are customers unhappy with our new feature?" Our raw ticket data contains status, priority, tags, and comment text, but doesn't directly contain customer sentiment or satisfaction levels. How would you approach enabling answers to these more complex questions?
+5. Workflow Efficiency: Brenda says "I end up creating the same report every Monday morning - it takes me 15 minutes of clicking through the interface to get the exact chart I need." How would you solve this repetitive workflow problem?
+6. Data Visualization Needs: Brenda wants to see her data, not just read numbers. She expects to be able to say "show me a bar chart of tickets by priority" and get back an actual chart image. What technical challenges does this requirement introduce?
+7. Operational Cost Management: Some questions Brenda asks are simple ("How many tickets today?") while others might require processing millions of records or running complex AI analysis. How would you handle the economic implications of this variability?
+8. Technology Evolution: The AI tools available today will likely be different in 6 months. Providers have outages, models get deprecated, and new capabilities emerge constantly. How would you future-proof your architecture against this technological uncertainty?
+---
+### The Deliverable
+Please provide a technical design document as a single Markdown file. This document should include:
+1. System Architecture Overview: A text-based description of the main components and their interactions (no diagrams required).
+2. Data Flow Description: A written explanation of how data moves from Zendesk to the end-user.
+3. Technology Choices: List the key technologies you would use for each component. Briefly justify each choice.
+4. Data Schema Structures: Key data models, table schemas, and API contracts that demonstrate your approach to data organization.
+5. Detailed Technical Explanations: Your written answers addressing each of the 8 "Key Architectural Considerations" above.
+### What We're Looking For
+* First-Principles Thinking: We want to see how you reason about problems, not just whether you know specific tools.
+* Pragmatism: Your design should be practical for an MVP but scalable for the future.
+* Awareness of Trade-offs: Acknowledge the trade-offs in your design (e.g., data freshness vs. cost).
+* Security & Scalability Mindset: Show that you are thinking about building a secure, reliable system.
