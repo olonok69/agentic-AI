@@ -1,0 +1,136 @@
+Project Overview
+
+In this project, you'll step into the role of an AI Engineer and construct a sophisticated, multi-stage AI assistant: the AgentsVille Trip Planner.
+
+The Scenario: Your Adventure in AgentsVille Awaits!
+Imagine a traveler, eager to explore the unique (though entirely fictional) city of AgentsVille. They have a set of preferences – perhaps a long weekend focused on art galleries and technology meetups, or a week-long dive into cultural experiences and street food, all within a specific budget. They turn to your AI-powered Trip Planner for help.
+
+Your challenge is to build an AI system that can:
+
+Understand and Interpret: Take into account user preferences and constraints.
+Plan Comprehensively: Generate a detailed, day-by-day itinerary that is not just a list of activities, but a coherent plan tailored to the individual travelers.
+Evaluate and Enhance: Refine the itinerary by intelligently using a set of tools to evaluate the plan, fetch new information, and refine the schedule.
+This isn't just about getting an LLM to output text; it's about designing a system that reasons, plans, and interacts with "external" information sources to provide a truly helpful trip planning experience.
+
+Project Description: Building Your AI Travel Assistant
+Your "AgentsVille Trip Planner" will be a Jupyter Notebook application that orchestrates interactions with a Large Language Model (LLM) to perform two main functions:
+
+The Expert Planner (Initial Itinerary Generation):
+
+Your Task: Based on a set of user-defined travel preferences (destination, duration, interests, budget), you will prompt the AI to act as an expert travel planner.
+The Outcome: The AI must generate a detailed, day-by-day travel itinerary for AgentsVille. This itinerary needs to be a structured JSON object that conforms to a predefined Pydantic model. This stage will heavily rely on your ability to craft prompts that elicit complex, structured output, guiding the LLM through a planning process.
+The Resourceful Assistant (Itinerary Enhancement with a Tool-Using ReAct Agent):
+
+Your Task: Once an initial itinerary is generated, the user might have follow-up questions or request modifications. Additionally, we may have other requirements to satisfy before finalizing the itinerary. You will design an "AI Travel Assistant".
+The Outcome: This agent will analyze the user's request in the context of the current itinerary. It will then decide if any of its available "tools" — like calling the simulated activities API tool — can assist.
+If a tool is needed, the agent will THINK about its plan and ACT by generating a structured request for the tool.
+Your Python code will simulate the tool's execution and provide the result back to the agent as an OBSERVATION.
+The agent will then use this observation to continue its reasoning or formulate a final, helpful answer to the user.
+
+
+Project Environment
+Provided Resources
+In the Udacity workspace on the following pages, you'll find a starter Jupyter Notebook (project_starter.ipynb): This will contain the project structure, some helper functions, and clearly marked TODO sections for you to complete.
+project_lib.py: A Python file containing:
+Pydantic models (e.g., VacationInfo, TravelItinerary, Activity, DayPlan, ToolCall) for data structure and validation.
+Mock Python functions for the simulated tools (e.g., get_weather_forecast, search_activities_tool - the solution actually has search_flights_tool, find_hotels_tool, get_weather_tool, get_activities_tool).
+The available_tools dictionary, which maps tool names to their Python functions and their JSON schemas (for prompting the LLM).
+Other utility functions like print_in_box.
+Local Machine Instructions
+If you prefer to work on this project on your local machine, please follow these steps to set up your environment. Note that using your personal OpenAI API key will incur costs based on your usage with OpenAI.
+
+Project Instructions
+The "AgentsVille Trip Planner" is a Jupyter Notebook-based application that interacts with an LLM to perform several functions:
+
+Define Vacation Details
+
+Specify the trip duration, interests, and constraints.
+Use Pydantic to structure and verify this information in a class called VacationInfo.
+Review Weather and Activity schedules
+
+Simulate API calls to gather weather data and available activities in bulk
+Review the data manually to understand the available options
+The ItineraryAgent
+
+Implement an agent that generates a day-by-day itinerary based on the vacation details
+The system prompt will guide the agent's reasoning through a step-by-step planning process to take travel preferences (e.g. destination, dates, interests) and generate a detailed day-by-day itinerary
+Craft the components of the prompt (including the role, task/instructions, output format, examples, and context) to elicit the best possible itinerary in one LLM cal
+Evaluating the Itinerary
+
+Evaluate the itinerary using a set of criteria to ensure a high-quality travel plan
+For instance, does the itinerary match the city and the dates requested?
+Or, is the total cost calulation accurate and is it within budget?
+Or, does the agent hallucinate any activities that are not available?
+Or, does the agent suggest activities that are not suitable for the weather? This specific evaluation function will require the use of an LLM to compare the event description against the weather data.
+Defining the Tools
+
+We will define four tools to assist the agent
+calculator_tool: to accurately calculate costs
+get_activities_by_date_tool: to retrieve activities for a specific date
+run_evals_tool: to evaluate the itinerary against the criteria
+final_answer_tool: to provide the final answer in a structured format
+The ItineraryRevisionAgent
+
+We will implement a second agent that revises the itinerary based on feedback using the ReAct THOUGHT → ACTION → OBSERVATION cycle.
+The LLM will first generated a THOUGHT / ACTION message, which contains reasoning steps and a tool call invocation.
+The Python code will parse the tool call and execute it, returning the result as a string to the LLM in an OBSERVATION message.
+After this cycle repeats n number of times, the LLM will invoke the final_answer_tool to signal to the Python code to end the loop and return the final answer.
+This agent will also incorporate feedback on the initial itinerary from the travelers to ensure the final plan has at least 2 activities per day. A new evaluation function using a powerful LLM will be created to check this user feedback.
+The agent will use the tools above to refine the plan iteratively, checking the weather and available activities, and ensuring the itinerary meets all constraints.
+Something just for fun!
+
+To wrap things up we'll create a fun, narrative summary of the trip, highlighting the best activities and experiences!
+Core Tasks & Project Specification
+You will be provided with a starter Jupyter Notebook (project_starter.ipynb) and a Python library (project_lib.py) containing helper functions and classes. Your primary responsibilities will be to complete the TODO sections in the starter notebook marked with **********, which involve:
+
+Configuring your OpenAI API Key.
+
+Create and read from a Pydantic model for the travelers' vacation information
+
+Completing the VacationInfo Pydantic model
+Gathering the weather and activity data for AgentsVille for the dates specified in VacationInfo
+Crafting the ITINERARY_AGENT_SYSTEM_PROMPT ItineraryAgent
+
+This system prompt must instruct the LLM to act as an expert travel planner.
+It must clearly define the task: to generate a comprehensive travel itinerary based on user preferences.
+It must specify the output format, which must include a JSON object conforming to the TravelPlan Pydantic model structure that is provided in the notebook.
+It must provided the necessary context needed to complete the task, e.g. the VacationInfo object and others.
+It should encourage detailed, well-thought-out daily plans, using a Chain-of-Thought process. This process may be guided explicitly using instructions, examples, and/or by specifying the output format.
+Crafting the ACTIVITY_AND_WEATHER_ARE_COMPATIBLE_SYSTEM_PROMPT for the LLM-powered evaluation function
+
+The prompt must provide a role, a task, output format, and examples.
+Define the docstring for the get_activities_by_date_tool evaluation function
+
+The docstring must contain the expected input parameter names and data types
+Crafting ITINERARY_REVISION_AGENT_SYSTEM_PROMPT for the ItineraryRevisionAgent:
+
+This system prompt must include a role
+It specify the task, which involves refining the the itinerary using feedback from the tools.
+In addition to running the run_evals_tool tool to get the initial feedback, it must also run the tool again before invoking the final_answer_tool
+You must dynamically include the list of available_tools in this prompt, clearly describing each tool's name, purpose, and parameters.
+It must clearly explain the THINK-ACT-OBSERVE cycle the LLM should follow.
+It must specify the exact format for tool call in the ACTION, which is {"tool_name": "[tool_name]", "arguments": {"arg1": "value1", ...}}
+It must exit the ReAct loop by calling the final_answer_tool
+General Success Criteria
+You will have successfully completed the project when:
+
+Your ITINERARY_AGENT_SYSTEM_PROMPT consistently guides the LLM to produce JSON output that successfully validates against the TravelPlan Pydantic model and reflects the user's preferences.
+Your ITINERARY_REVISION_AGENT_SYSTEM_PROMPT enables the LLM to:
+Always return a single message with both a THOUGHT and ACTION present
+Contain reasoning steps within the THOUGHT section that allow the LLM to choose the tools it needs at the right time
+Generate valid tool calls in the specified JSON format.
+Call the final_answer_tool when after the evaluation criteria have passed
+The final itinerary returned by the LLM does, in fact, pass the evaluation criteria
+The overall "AgentsVille Trip Planner" can generate a reasonable final itinerary, taking into account interests, weather, and other constraints as well as incorporates the initial feedback from the travelers.
+This project will require you to be meticulous in your prompt design and careful in your implementation of the agent's interaction logic. Good luck, and enjoy building your AI Trip Planner!
+
+
+
+Use the Project_AgentsVille Trip PLanner\project_starter.ipynb (Instructions and Todo,s) to create a python scripts which implement the AgentsVille Trip Planner TODO,s (in the Notebook). Use what we have in Project_AgentsVille Trip PLanner\project_lib.py, but dont modify anything 
+Use what we have in the learning repos
+
+Role Base Prompting--> Role-Based Prompting\solution-lesson-1-role-based-prompting.ipynb
+Chain-of-Thought Reasoning-->Chain-of-Thought and ReACT Prompting with Python\chain-of-thoughts\lesson-2-chain-of-thought-and-react-prompting-part-i.ipynb
+ReAct Prompting-->Chain-of-Thought and ReACT Prompting with Python\react-prompting\lesson-2-chain-of-thought-and-react-prompting-part-ii.ipynb
+Feedback Loops-->Implementing LLM Feedback Loops with Python\lesson-5-implementing-llm-feedback-loops.ipynb
+Use as well pydantic class and guard rails like the implemented in streamlit_app
